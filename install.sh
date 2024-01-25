@@ -1,0 +1,1 @@
+sudo cp thone_kernel.bin /boot/thone_kernel.bin
