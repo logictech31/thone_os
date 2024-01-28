@@ -12,10 +12,10 @@
 .global loader
 
 loader:
-    mov $kernel_stack, %esp
-    push %eax
+    mov $kernel_stack, %esp # we here set the stack for the kernel
+    push %eax # we push the accumulator and the base register
     push %ebx
-    call kernel_main
+    call kernel_main # here we call the C++ function kernel_main
 
 _stop:
     cli
