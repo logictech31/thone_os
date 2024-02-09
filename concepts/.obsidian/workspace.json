@@ -4,23 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "223d4088bfe93526",
+        "id": "4c3d2bc5e6c80dc5",
         "type": "tabs",
         "children": [
           {
-            "id": "946209db4139d069",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "The Start.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "5c3dc293edd1ef22",
+            "id": "b4d350dd4f9f32f0",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -31,8 +19,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -159,10 +146,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5c3dc293edd1ef22",
+  "active": "b4d350dd4f9f32f0",
   "lastOpenFiles": [
-    "Pasted image 20240128224527.png",
+    "Pasted image 20240209190756.png",
+    "Pasted image 20240128185903.png",
+    "Memory Segments and Descriptor Tables.md",
     "The Start.md",
-    "Memory Segments and Descriptor Tables.md"
+    "Pasted image 20240128224527.png"
   ]
 }

@@ -12,7 +12,7 @@ public:
         uint8_t flags_limit_hi;
         uint8_t base_vhi;
     public:
-        Segment_Descriptor(uint32_t base, uint32_t limit, uint8_t type);
+        Segment_Descriptor(uint32_t base, uint32_t limit, uint8_t flags);
 
         uint32_t Base();
 

@@ -1,11 +1,11 @@
 Now when it comes to memory segments exist as Kernel Space (sudo) and User Space (less privileges).
 
-A common approach of attacking in the past was to load a program in the user's memory section and make it affect the Kernel space.
+A common approach of attacking the computer in the past was to load a program in the user's memory section and make it affect the Kernel space.
 
-Today, the CPU is told it's privilege whether it can execute a piece of code in the *Data Segment* or not.
+Today, the OS tells the Program about its *privilege level* to allow/reject it from jumping into a *data segment*
 
 Now when we are in user space and press a key on the keyboard, 
-1. It creates a triggered
+1. It creates a trigger
 2. The controller in the port communicates with the CPU
 This is called as an *"Interrupt"*
 
@@ -19,3 +19,5 @@ which will define CS:DS stack
 In total, it is 8 bytes long (64 bits)
 
 ![[Pasted image 20240128224527.png]]
+
+![[Pasted image 20240209190756.png]]

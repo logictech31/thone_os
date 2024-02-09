@@ -1,4 +1,5 @@
 #include "includes/io.h"
+#include "includes/gdt.h"
 
 void printf(char* str) {
     uint16_t *VIDEO_MEMORY = (uint16_t*)0xb8000;
@@ -10,6 +11,8 @@ void printf(char* str) {
 }
 
 extern "C" void kernel_main(void *multiboot_structure, uint32_t magic_number) {
+    Global_Descriptor_Table gdt;
+    
     printf("Thone_OS started!");
     while(1);
 }
