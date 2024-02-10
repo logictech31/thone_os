@@ -75,5 +75,12 @@ uint32_t Global_Descriptor_Table::Segment_Descriptor::Base() {
 }
 
 uint32_t Global_Descriptor_Table::Segment_Descriptor::Limit() {
+    uint8_t* target = (uint8_t *) this;
+    uint32_t result = target[6] & 0xF;
+    result = (result << 8) + target[1];
+    result = (result << 8) + target[0];
+    if((target[6] & 0xC0) == 0xC0)
+        result = (result << 12) | 0xFFF;
 
+    return result;
 }
