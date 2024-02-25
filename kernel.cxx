@@ -1,5 +1,5 @@
-#include "includes/io.h"
-#include "includes/gdt.h"
+#include "includes/io.hxx"
+#include "includes/gdt.hxx"
 
 void printf(char* str) {
     uint16_t *VIDEO_MEMORY = (uint16_t*)0xb8000;

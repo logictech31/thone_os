@@ -1,5 +1,5 @@
 #pragma once
-#include "types.h"
+#include "types.hxx"
 
 class Global_Descriptor_Table {
 public:
