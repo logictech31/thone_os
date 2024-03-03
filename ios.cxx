@@ -1,6 +1,7 @@
 #include "includes/ios.hxx"
 
-void printf(char* str) {
+// printf definition
+uint8_t printf(char* str) {
     static uint16_t *VIDEO_MEMORY = (uint16_t*)0xb8000;
     static uint8_t x = 0, y = 0;
 
@@ -53,5 +54,5 @@ void printf(char* str) {
         }
     }
 
-        return;
+        return 0;
 }

@@ -1,3 +1,3 @@
 #pragma once
 #include "types.hxx"
-void printf(char *str);
+uint8_t printf(char *str);
