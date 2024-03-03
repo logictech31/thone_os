@@ -2,7 +2,7 @@
 #include "includes/ios.hxx"
 
 uint32_t Interrupt_Manager::handle_interrupt(uint8_t interrupt_num, uint32_t esp) {
-    printf("Interrupt");
+    std::cout << "Interrupt!\n";
 
     return esp;
 }

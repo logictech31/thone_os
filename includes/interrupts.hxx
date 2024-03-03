@@ -15,7 +15,7 @@ protected:
     static Gate_Descriptor Interrupt_Descriptor_Table[256];
 
     // sets entries in idt
-    static void Set_Interrupt_Desc_Table(
+    static void Set_Interrupt_Descriptor_Table(
         uint8_t interrupt_num, 
         uint16_t gdt_cs_selector_offset,
         void (*handler)(),
@@ -25,11 +25,11 @@ protected:
 
 public:
     Interrupt_Manager(Global_Descriptor_Table *gdt);
+    ~Interrupt_Manager();
+    
     static uint32_t handle_interrupt(uint8_t interrupt_num, uint32_t esp);
     // timeout interrupt
     static void handle_interrupt_request0x00();
     // keyboard interrupt
     static void handle_interrupt_request0x01();
-
-    ~Interrupt_Manager();
 };

@@ -22,6 +22,7 @@ class Global_Descriptor_Table {
     // does something
 }
 ```
+
 6. To look clean, the class access specifiers must be defined like this
 ```
 class C1 {
@@ -36,6 +37,8 @@ public:
     method(int params)
 }
 ```
+
+7. C++ Headers are declared with .hxx and files with .cxx for my code
 -------------------------------------
 Update this if necessary
 
