@@ -8,7 +8,7 @@ protected:
     struct Gate_Descriptor {
         uint16_t handle_addr_low_bits; // 2
         uint16_t gdt_cs_selector; // 2
-        uint8_t reserved_1; // 1
+        uint8_t reserved; // 1
         uint8_t access_rights; // 1
         uint16_t handle_address_high_bits; // 2
     }__attribute__((packed));
@@ -28,6 +28,8 @@ public:
     ~Interrupt_Manager();
     
     static uint32_t handle_interrupt(uint8_t interrupt_num, uint32_t esp);
+    
+    static void ignore_interrupt_request();
     // timeout interrupt
     static void handle_interrupt_request0x00();
     // keyboard interrupt

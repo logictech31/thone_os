@@ -1,5 +1,7 @@
 .section .text
 
+.set IRQ_BASE 0x20
+
 .extern _ZN17Interrupt_Manager16handle_interruptEhj # Name mangling to the method interrupts.o 
 
 .macro Handle_Interrupt_Rq interrupt_num
