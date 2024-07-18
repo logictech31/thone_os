@@ -1,25 +1,26 @@
+.set IRQ_BASE, 20
+
 .section .text
 
-.set IRQ_BASE 0x20
+.extern _ZN11descriptors17Interrupt_Manager16handle_interruptEhj
 
-.extern _ZN17Interrupt_Manager16handle_interruptEhj # Name mangling to the method interrupts.o 
+.macro Handle_Interrupt_Request num
+.global _ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev
+_ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev:
+    movb $\num + IRQ_BASE, (interrupt_num)
+    jmp int_bottom
+.endm
 
-.macro Handle_Interrupt_Rq interrupt_num
-.global _ZN17Interrupt_Manager28handle_interrupt_request\num\Ev
+.macro Handle_Interrupt_Exception num
+.global _ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev
+_ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev:
     movb $\num, (interrupt_num)
     jmp int_bottom
 .endm
 
-.macro Handle_Interrupt_Ex interrupt_num
-.global _ZN17Interrupt_Manager28handle_interrupt_request\num\Ev
-    movb $\num, (interrupt_num)
-    jmp int_bottom
-.endm
+handle_interrupt_request 0x00
+handle_interrupt_request 0x01
 
-Handle_Interrupt_Rq 0x00
-Handle_Interrupt_Rq 0x01
-
-# int_bottom jumps into the handle_interrupts function directly
 int_bottom:
     pusha
     pushl %ds
@@ -27,10 +28,10 @@ int_bottom:
     pushl %fs
     pushl %gs
 
+    # Call the handle_interrupt function to handle the interrupt
     pushl %esp
     push (interrupt_num)
-    call _ZN17Interrupt_Manager16handle_interruptEhj
-    # addl $5, %esp
+    call _ZN11descriptors17Interrupt_Manager16handle_interruptEhj
     movl %eax, %esp
 
     popl %gs
@@ -38,7 +39,11 @@ int_bottom:
     popl %es
     popl %ds
     popa
+    # We are done handling interrupts
+    iret
 
+.global _ZN11descriptors17Interrupt_Manager24ignore_interrupt_requestEv
+_ZN11descriptors17Interrupt_Manager24ignore_interrupt_requestEv:
     iret
 
 .data

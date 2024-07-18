@@ -2,7 +2,7 @@ CPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-except
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objs = loader.o gdt.o kernel.o port.o ios.o # interrupts.o interruptstubs.o
+objs = loader.o gdt.o kernel.o port.o ios.o interruptstubs.o idt.o
 
 %.o: %.cxx
 	g++ $(CPPARAMS) -o $@ -c $<
@@ -38,6 +38,4 @@ run: thone_os.iso
 
 .PHONY: clean
 clean:
-	rm -f *.o
-	rm -f *.bin
-	rm -f *.iso
+	rm -f $(objs) thone_os.iso thone_kernel.bin

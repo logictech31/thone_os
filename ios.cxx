@@ -23,7 +23,10 @@ namespace std {
             case '\b':
                 x--;
                 break;
-            
+            case '\t':
+                y = ( (y + 4) > 80) ? 0 : y + 4;
+                break;
+
             case '\r':
                 y++;
                 break;
@@ -42,7 +45,7 @@ namespace std {
                     We should be using a 2-dim array as such VIDEO_MEM[x][y], but this is equivalent to
                     VIDEO_MEM[x * y], because... Memory is sequential.
                 */
-                VIDEO_MEMORY[80*y+x] = (VIDEO_MEMORY[80*y+x] & 0xFF00) | str[i];
+                VIDEO_MEMORY[MAX_WIDTH * y + x] = (VIDEO_MEMORY[MAX_WIDTH * y + x] & 0xFF00) | str[i];
                 x++;
                 break;
             }
@@ -52,7 +55,7 @@ namespace std {
                 x = 0;
             }
             // Clears the entire screen if y goes out of bounds
-            if(y >= 25) {
+            if(y > MAX_HEIGHT) {
                 for(y = 0; y < 25; y ++) 
                     for(x = 0; x < 25; x ++)
                         VIDEO_MEMORY[80*y+x] = (VIDEO_MEMORY[80*y+x] & 0xFF00) | ' ';

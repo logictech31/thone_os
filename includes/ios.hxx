@@ -1,6 +1,8 @@
 #pragma once
 #include "types.hxx"
 // uint8_t printf(char *str);
+#define MAX_WIDTH 80
+#define MAX_HEIGHT 24
 
 namespace std {
     class Output_Stream {

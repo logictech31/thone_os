@@ -1,4 +1,5 @@
-#include "includes/gdt.hxx"
+#include "includes/descriptors.hxx"
+using namespace descriptors;
 /*
     Here the Code segment will start at index 0 and 64MB
 */
