@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _PORT_HXX_
+#define _PORT_HXX_
 #include "types.hxx"
 
 class Port {
@@ -38,4 +39,4 @@ public:
     virtual void Write(uint32_t data);
     virtual uint32_t Read();
 };
-
+#endif

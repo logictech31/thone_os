@@ -2,10 +2,11 @@ CPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-except
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objs = loader.o gdt.o kernel.o port.o ios.o interruptstubs.o idt.o
+CPP = g++
+objs = loader.o gdt.o idt.o kernel.o port.o ios.o interruptstubs.o
 
 %.o: %.cxx
-	g++ $(CPPARAMS) -o $@ -c $<
+	$(CPP) $(CPPARAMS) -o $@ -c $<
 
 %.o: %.s
 	as $(ASPARAMS) -o $@ $<

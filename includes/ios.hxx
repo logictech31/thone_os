@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _IOS_HXX_
+#define _IOS_HXX_
 #include "types.hxx"
 // uint8_t printf(char *str);
 #define MAX_WIDTH 80
@@ -17,3 +18,4 @@ namespace std {
 
     static Output_Stream cout;
 }
+#endif

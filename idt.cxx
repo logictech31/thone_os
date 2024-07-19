@@ -1,8 +1,11 @@
-#include "includes/descriptors.hxx"
+#include "includes/idt.hxx"
 #include "includes/ios.hxx"
-using namespace descriptors;
+#include "includes/port.hxx"
+#include "includes/gdt.hxx"
 
-Interrupt_Manager::Interrupt_Manager(Global_Descriptor_Table *gdt_p) 
+Interrupt_Manager::Gate_Descriptor Interrupt_Manager::IVT[256];
+
+Interrupt_Manager::Interrupt_Manager(Global_Descriptor_Table *gdt_p)
 : pic_master_command(0x20),
 pic_master_data(0x21),
 pic_slave_command(0xA0),
@@ -28,12 +31,12 @@ pic_slave_data(0xA1)
         Interrupt_Manager::Set_Interrupt_Descriptor_Entry(i, CodeSegment, &(this->ignore_interrupt_request), 0, IDT_INTERRUPT_GATE);
     }
 
-    Interrupt_Manager::Set_Interrupt_Descriptor_Entry(0x20, CodeSegment, &(this->handle_interrupt_request0x00), 0, IDT_INTERRUPT_GATE);
-    Interrupt_Manager::Set_Interrupt_Descriptor_Entry(0x21, CodeSegment, &(this->handle_interrupt_request0x01), 0, IDT_INTERRUPT_GATE);
+    Set_Interrupt_Descriptor_Entry(0x20, CodeSegment, &(this->handle_interrupt_request0x00), 0, IDT_INTERRUPT_GATE);
+    Set_Interrupt_Descriptor_Entry(0x21, CodeSegment, &(this->handle_interrupt_request0x01), 0, IDT_INTERRUPT_GATE);
 
     IDT_Pointer idt;
     idt.size = 256 * sizeof(Gate_Descriptor) - 1;
-    idt.base = (uint32_t) Interrupt_Vector_Table;
+    idt.base = (uint32_t) IVT;
 
     asm volatile("lidt %0": :"m" (idt));
 }
@@ -60,11 +63,11 @@ void Interrupt_Manager::Set_Interrupt_Descriptor_Entry(
 ) {
     const uint8_t IDT_DESC_PRESENT = 0x80;
 
-    Interrupt_Manager::Interrupt_Vector_Table[interrupt_num].handler_address_high = ((uint32_t)handler >> 16) & 0xFFF;
-    Interrupt_Manager::Interrupt_Vector_Table[interrupt_num].handler_address_low = ((uint32_t)handler) & 0xFFF;
-    Interrupt_Manager::Interrupt_Vector_Table[interrupt_num].access_rights = IDT_DESC_PRESENT | ((descriptor_privilege_level & 3) << 5) | descriptor_type;
-    Interrupt_Manager::Interrupt_Vector_Table[interrupt_num].gdt_cs_selector = cs_selector_offset;
-    Interrupt_Manager::Interrupt_Vector_Table[interrupt_num].reserved = 0;
+    Interrupt_Manager::IVT[interrupt_num].handler_address_high = ((uint32_t)handler >> 16) & 0xFFF;
+    Interrupt_Manager::IVT[interrupt_num].handler_address_low = ((uint32_t)handler) & 0xFFF;
+    Interrupt_Manager::IVT[interrupt_num].access_rights = IDT_DESC_PRESENT | ((descriptor_privilege_level & 3) << 5) | descriptor_type;
+    Interrupt_Manager::IVT[interrupt_num].gdt_cs_selector = cs_selector_offset;
+    Interrupt_Manager::IVT[interrupt_num].reserved = 0;
 }
 
 

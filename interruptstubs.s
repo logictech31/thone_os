@@ -2,18 +2,18 @@
 
 .section .text
 
-.extern _ZN11descriptors17Interrupt_Manager16handle_interruptEhj
+.extern _ZN17Interrupt_Manager16handle_interruptEhj
 
 .macro Handle_Interrupt_Request num
-.global _ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev
-_ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev:
+.global _ZN17Interrupt_Manager26handle_interrupt_request\num\()Ev
+_ZN17Interrupt_Manager26handle_interrupt_request\num\()Ev:
     movb $\num + IRQ_BASE, (interrupt_num)
     jmp int_bottom
 .endm
 
 .macro Handle_Interrupt_Exception num
-.global _ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev
-_ZN11descriptors17Interrupt_Manager28handle_interrupt_request\num\()Ev:
+.global _ZN17Interrupt_Manager26handle_interrupt_request\num\()Ev
+_ZN17Interrupt_Manager26handle_interrupt_request\num\()Ev:
     movb $\num, (interrupt_num)
     jmp int_bottom
 .endm
@@ -31,7 +31,7 @@ int_bottom:
     # Call the handle_interrupt function to handle the interrupt
     pushl %esp
     push (interrupt_num)
-    call _ZN11descriptors17Interrupt_Manager16handle_interruptEhj
+    call _ZN17Interrupt_Manager16handle_interruptEhj
     movl %eax, %esp
 
     popl %gs
@@ -42,8 +42,8 @@ int_bottom:
     # We are done handling interrupts
     iret
 
-.global _ZN11descriptors17Interrupt_Manager24ignore_interrupt_requestEv
-_ZN11descriptors17Interrupt_Manager24ignore_interrupt_requestEv:
+.global _ZN17Interrupt_Manager24ignore_interrupt_requestEv
+_ZN17Interrupt_Manager24ignore_interrupt_requestEv:
     iret
 
 .data
