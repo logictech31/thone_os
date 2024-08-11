@@ -29,7 +29,7 @@ uint16_t Global_Descriptor_Table::Data_Segment_Select() {
 
 uint16_t Global_Descriptor_Table::Code_Segment_Select() {
 
-    return (uint8_t *) &Code_Segment_Selector - (uint8_t *) this;
+    return (uint16_t)((uint8_t *) &Code_Segment_Selector - (uint8_t *) this);
 
 }
 
@@ -59,14 +59,14 @@ Global_Descriptor_Table::Segment_Descriptor::Segment_Descriptor (uint32_t base, 
     target[3] = (base >> 0x8) & 0xFF;
     target[4] = (base >> 0x10) & 0xFF;
     target[7] = (base >> 0x18) & 0xFF;
-    
+
     target[5] = flags;
 }
 
 uint32_t Global_Descriptor_Table::Segment_Descriptor::Base() {
     uint8_t *target = (uint8_t*) this;
     uint32_t result = target[7];
-    
+
     result = (result << 8) + target[4];
     result = (result << 8) + target[3];
     result = (result << 8) + target[2];

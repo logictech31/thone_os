@@ -2,7 +2,7 @@ CPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-except
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objs = loader.o gdt.o kernel.o port.o ios.o # interrupts.o interruptstubs.o
+objs = loader.o gdt.o kernel.o port.o ios.o interrupts.o
 
 %.o: %.cxx
 	g++ $(CPPARAMS) -o $@ -c $<
@@ -34,7 +34,7 @@ thone_os.iso: thone_kernel.bin
 
 run: thone_os.iso
 	(killall qemu-kvm) || true
-	qemu-kvm -hda thone_os.iso
+	qemu-kvm -drive format=raw,file=thone_os.iso
 
 .PHONY: clean
 clean:

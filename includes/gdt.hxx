@@ -5,12 +5,13 @@ class Global_Descriptor_Table {
 public:
     class Segment_Descriptor {
     private:
-        uint16_t limit_lo;
-        uint16_t base_lo;
-        uint8_t base_hi;
-        uint8_t type;
-        uint8_t flags_limit_hi;
-        uint8_t base_vhi;
+        uint16_t limit_lo;  // 2
+        uint16_t base_lo;   // 2
+        uint8_t base_hi;    // 1
+        uint8_t type;       // 1
+        uint8_t flags_limit_hi; // 1
+        uint8_t base_vhi;       // 1
+        // Total: 8 bytes
     public:
         Segment_Descriptor(uint32_t base, uint32_t limit, uint8_t flags);
 

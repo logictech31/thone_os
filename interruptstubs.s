@@ -1,25 +1,64 @@
+.section .data
+interrupt_number:
+    .byte 0x0
+.set IRQ_BASE, 0x20
+
 .section .text
+.extern _ZN17Interrupt_Manager16handle_interruptEhj
 
-.set IRQ_BASE 0x20
-
-.extern _ZN17Interrupt_Manager16handle_interruptEhj # Name mangling to the method interrupts.o 
-
-.macro Handle_Interrupt_Rq interrupt_num
-.global _ZN17Interrupt_Manager28handle_interrupt_request\num\Ev
-    movb $\num, (interrupt_num)
+.macro HandleException num
+.global _ZN17Interrupt_Manager19handle_interrupt_except\num\()Ev
+_ZN17Interrupt_Manager19handle_interrupt_except\num\()Ev:
+    movb $\num, (interrupt_number)
+    jmp int_bottom
+.endm
+.macro HandleInterruptRequest num
+.global _ZN17Interrupt_Manager26handle_interrupt_request\num\()Ev
+_ZN17Interrupt_Manager26handle_interrupt_request\num\()Ev:
+    movb $\num + IRQ_BASE, (interrupt_number)
+    push $0
     jmp int_bottom
 .endm
 
-.macro Handle_Interrupt_Ex interrupt_num
-.global _ZN17Interrupt_Manager28handle_interrupt_request\num\Ev
-    movb $\num, (interrupt_num)
-    jmp int_bottom
-.endm
+HandleException 0x00
+HandleException 0x01
+HandleException 0x02
+HandleException 0x03
+HandleException 0x04
+HandleException 0x05
+HandleException 0x06
+HandleException 0x07
+HandleException 0x08
+HandleException 0x09
+HandleException 0x0A
+HandleException 0x0B
+HandleException 0x0C
+HandleException 0x0D
+HandleException 0x0E
+HandleException 0x0F
+HandleException 0x10
+HandleException 0x11
+HandleException 0x12
+HandleException 0x13
 
-Handle_Interrupt_Rq 0x00
-Handle_Interrupt_Rq 0x01
+HandleInterruptRequest 0x00
+HandleInterruptRequest 0x01
+HandleInterruptRequest 0x02
+HandleInterruptRequest 0x03
+HandleInterruptRequest 0x04
+HandleInterruptRequest 0x05
+HandleInterruptRequest 0x06
+HandleInterruptRequest 0x07
+HandleInterruptRequest 0x08
+HandleInterruptRequest 0x09
+HandleInterruptRequest 0x0A
+HandleInterruptRequest 0x0B
+HandleInterruptRequest 0x0C
+HandleInterruptRequest 0x0D
+HandleInterruptRequest 0x0E
+HandleInterruptRequest 0x0F
+HandleInterruptRequest 0x31
 
-# int_bottom jumps into the handle_interrupts function directly
 int_bottom:
     pusha
     pushl %ds
@@ -28,18 +67,15 @@ int_bottom:
     pushl %gs
 
     pushl %esp
-    push (interrupt_num)
+    push (interrupt_number)
     call _ZN17Interrupt_Manager16handle_interruptEhj
-    # addl $5, %esp
+    add %esp, 6
     movl %eax, %esp
-
     popl %gs
     popl %fs
     popl %es
     popl %ds
     popa
-
+.global _ZN17Interrupt_Manager22ignore_interrupt_requestEv
+_ZN17Interrupt_Manager22ignore_interrupt_requestEv:
     iret
-
-.data
-    interrupt_num: .byte 0
