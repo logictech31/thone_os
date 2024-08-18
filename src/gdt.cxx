@@ -1,4 +1,4 @@
-#include "includes/gdt.hxx"
+#include "../includes/gdt.hxx"
 /*
     Here the Code segment will start at index 0 and 64MB
 */

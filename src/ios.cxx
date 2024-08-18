@@ -1,4 +1,4 @@
-#include "includes/ios.hxx"
+#include "../includes/ios.hxx"
 namespace std {
     Output_Stream::Output_Stream() {
         VIDEO_MEMORY = (uint16_t *)0xb8000;
@@ -19,21 +19,21 @@ namespace std {
                 x = 0;
                 y++;
                 break;
-            
+
             case '\b':
                 x--;
                 break;
-            
+
             case '\r':
                 y++;
                 break;
-            
+
             default:
                 /*  We have done a bitwise operation here to
                     only assign value at lower byte since
                     Higher byte = colour info
                     Lower byte = Actual value
-                    This is done to retain the default colour information 
+                    This is done to retain the default colour information
                     ---------------------------------------------------------
                     The math behind calculating the VIDEO_MEM[index]'s index is
                     index = MAX_WIDTH_RESOLUTION * current_height + current_width
@@ -53,7 +53,7 @@ namespace std {
             }
             // Clears the entire screen if y goes out of bounds
             if(y >= 25) {
-                for(y = 0; y < 25; y ++) 
+                for(y = 0; y < 25; y ++)
                     for(x = 0; x < 25; x ++)
                         VIDEO_MEMORY[80*y+x] = (VIDEO_MEMORY[80*y+x] & 0xFF00) | ' ';
                 x = 0;
@@ -62,5 +62,9 @@ namespace std {
         }
 
             return 0;
+    }
+
+    char * Output_Stream::itoa(char *str) {
+
     }
 }
