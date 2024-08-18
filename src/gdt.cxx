@@ -9,32 +9,32 @@ Unused_Segment_Selector(0, 0, 0),
 Code_Segment_Selector(0, 64 * 1024 * 1024, 0x9A),
 Data_Segment_Selector(0, 64 * 1024 * 1024, 0x92) {
     // The processor expects 6 bytes in a row
-    uint32_t i[2];
+    u32 i[2];
     // This has the address of the table itself
-    i[0] = (uint32_t) this;
-    // We left shift by 16 because it is supposed to be the high bytes
-    i[1] = sizeof(Global_Descriptor_Table) << 16;
+    i[1] = (u32) this;
+    // We right shift by 16 because it is supposed to be the high bytes
+    i[0] = sizeof(Global_Descriptor_Table) << 16;
 
     // We now tell the assembler to use this table that we've declared
-    asm volatile("lgdt (%0)": :"p" (((uint8_t *)i)+2));
+    asm volatile("lgdt (%0)": :"p" (((u8 *)i)+2));
 }
 
 Global_Descriptor_Table::~Global_Descriptor_Table() {
 
 }
 
-uint16_t Global_Descriptor_Table::Data_Segment_Select() {
-    return (uint8_t *) &Data_Segment_Selector - (uint8_t *) this;
+u16 Global_Descriptor_Table::Data_Segment_Select() {
+    return (u8 *) &Data_Segment_Selector - (u8 *) this;
 }
 
-uint16_t Global_Descriptor_Table::Code_Segment_Select() {
+u16 Global_Descriptor_Table::Code_Segment_Select() {
 
-    return (uint16_t)((uint8_t *) &Code_Segment_Selector - (uint8_t *) this);
+    return (u16)((u8 *) &Code_Segment_Selector - (u8 *) this);
 
 }
 
-Global_Descriptor_Table::Segment_Descriptor::Segment_Descriptor (uint32_t base, uint32_t limit, uint8_t flags) {
-    uint8_t* target = (uint8_t*) this;
+Global_Descriptor_Table::Segment_Descriptor::Segment_Descriptor (u32 base, u32 limit, u8 flags) {
+    u8* target = (u8*) this;
 
     // we have to do this because the gdt structure is very spread out
     if(limit <= 65536) {
@@ -63,9 +63,9 @@ Global_Descriptor_Table::Segment_Descriptor::Segment_Descriptor (uint32_t base, 
     target[5] = flags;
 }
 
-uint32_t Global_Descriptor_Table::Segment_Descriptor::Base() {
-    uint8_t *target = (uint8_t*) this;
-    uint32_t result = target[7];
+u32 Global_Descriptor_Table::Segment_Descriptor::Base() {
+    u8 *target = (u8*) this;
+    u32 result = target[7];
 
     result = (result << 8) + target[4];
     result = (result << 8) + target[3];
@@ -74,9 +74,9 @@ uint32_t Global_Descriptor_Table::Segment_Descriptor::Base() {
     return result;
 }
 
-uint32_t Global_Descriptor_Table::Segment_Descriptor::Limit() {
-    uint8_t* target = (uint8_t *) this;
-    uint32_t result = target[6] & 0xF;
+u32 Global_Descriptor_Table::Segment_Descriptor::Limit() {
+    u8* target = (u8 *) this;
+    u32 result = target[6] & 0xF;
     result = (result << 8) + target[1];
     result = (result << 8) + target[0];
     if((target[6] & 0xC0) == 0xC0)

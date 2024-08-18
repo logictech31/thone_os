@@ -3,7 +3,7 @@ ASPARAMS = --32
 LDPARAMS = -melf_i386
 VIRTUALIZER = qemu-system-i386
 
-objs = objs/loader.o objs/gdt.o objs/kernel.o objs/port.o objs/ios.o objs/interrupts.o
+objs = objs/loader.o objs/gdt.o objs/kernel.o objs/port.o objs/ios.o objs/interruptstubs.o objs/interrupts.o
 
 objs/%.o: src/%.cxx
 	g++ $(CPPARAMS) -o $@ -c $<
