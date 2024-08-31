@@ -50,8 +50,7 @@ void Interrupt_Manager::Activate() {
 }
 
 u32 Interrupt_Manager::handle_interrupt(u8 interrupt_num, u32 esp) {
-    std::cout << "\nInterrupt!";
-    std::cout << interrupt_num;
+    std::cout << " \nInterrupt!";
 
     return esp;
 }
