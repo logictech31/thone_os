@@ -46,6 +46,7 @@ Interrupt_Manager::~Interrupt_Manager() {
 }
 
 void Interrupt_Manager::Activate() {
+    std::cout << " We're here!"
     asm volatile("sti");
 }
 
